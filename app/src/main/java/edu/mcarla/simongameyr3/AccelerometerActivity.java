@@ -42,6 +42,8 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
     boolean SouthTilt =false;
     boolean WestTilt =false;
 
+    boolean tilted = false;
+
  //*************************************************************
 
     int counter = 0; // step counter
@@ -75,12 +77,38 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
       GameSequence = SArray;
 
 
-
       for(int item: GameSequence){
           Log.i("SecondACTIVITY",String.valueOf(item));
 
 
+          //Trying to get game logic to work
 
+         /*if(item == 1 && NorthTilt == true )
+          {
+              Toast.makeText(this, "You titled North! that is correct", Toast.LENGTH_SHORT).show();
+          }
+          else if (item == 2 || item == 3 ||item == 4 && NorthTilt == true)
+          {
+              Toast.makeText(this, "You titled North! INCORRECT", Toast.LENGTH_SHORT).show();
+          }
+
+          if(item == 2 && SouthTilt == true )
+          {
+              Toast.makeText(this, "You titled South! that is correct", Toast.LENGTH_SHORT).show();
+          }
+          else if (item == 1 || item == 3 ||item == 4 && SouthTilt == true)
+          {
+              Toast.makeText(this, "You titled South! INCORRECT", Toast.LENGTH_SHORT).show();
+          }
+
+          if(item == 3 && WestTilt == true )
+          {
+              Toast.makeText(this, "You titled West! that is correct", Toast.LENGTH_SHORT).show();
+          }
+          else if (item == 1 || item == 2 ||item == 4 && WestTilt == true)
+          {
+              Toast.makeText(this, "You titled West! INCORRECT", Toast.LENGTH_SHORT).show();
+          }*/
       }
 
 
@@ -93,8 +121,6 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
         southsteps = findViewById(R.id.SouthCount);
         weststeps = findViewById(R.id.WestCount);
         //eaststeps = findViewById(R.id.EastCount);
-
-
 
 
 
@@ -118,6 +144,7 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
         float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
@@ -129,24 +156,29 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
 
 //***********North Tilt********************************
         if ((x > NORTH_MOVE_FORWARD) && (highLimit == false)) {
+            NorthTilt = false;
 
             highLimit = true;
         }
         if ((x < NORTH_MOVE_BACKWARD) && (highLimit == true)) {
            counter++;
            tvSteps.setText(String.valueOf(counter));
+          NorthTilt = true;
             highLimit = false;
+
 
         }
 
 //************South Tilt**************************************
         if ((z > SOUTH_MOVE_FORWARD) && (SouthHighLimit == false)) {
             SouthHighLimit = true;
+            SouthTilt = false;
         }
         if ((z < SOUTH_MOVE_BACkWARD) && (SouthHighLimit == true)) {
 
            SouthCount++;
            southsteps.setText(String.valueOf(SouthCount));
+           SouthTilt = true;
             SouthHighLimit = false;
 
         }
@@ -156,24 +188,19 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
         if ((y > WEST_MOVE_FORWARD) && (westhighlimit == false)) {
 
             westhighlimit = true;
+            WestTilt = false;
         }
         if ((y < WEST_MOVE_BACKWARD) && (westhighlimit == true)) {
 
            WestCount++;
-         weststeps.setText(String.valueOf(WestCount));
+           weststeps.setText(String.valueOf(WestCount));
+            WestTilt = true;
             westhighlimit = false;
 
         }
 
 
-
-
-
-
-
     }
-
-
 
 //*****************************East Tilt*****************************
 
@@ -187,8 +214,6 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
             eaststeps.setText(String.valueOf(EastCount));
              EastHighLimit= false;
         }*/
-
-
 
 
 
